@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.client.RestTemplate
+import org.springframework.web.client.postForObject
 import java.io.File
 import java.lang.Boolean.FALSE
 import java.lang.Boolean.TRUE
@@ -22,6 +23,8 @@ class RfidController {
     @Autowired
     lateinit var machine: Machine
 
+    @Autowired
+    lateinit var restTemplate: RestTemplate
 
     @GetMapping("/kickstart")
     fun returnText(): String {
@@ -44,8 +47,7 @@ class RfidController {
         }
 
         machine.status = status
-
-
+        var responseFromAzure: String = restTemplate.postForObject("XXX", machine, String::class)
 
         return response
     }
