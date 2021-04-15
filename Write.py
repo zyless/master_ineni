@@ -6,7 +6,7 @@ from mfrc522 import SimpleMFRC522
 reader = SimpleMFRC522()
 
 try:
-	text = input('TRUE')
+	text = input('New Data:')
 	print("Now place your tag to write")
 	reader.write(text)
 	print("written")

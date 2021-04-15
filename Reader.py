@@ -9,7 +9,7 @@ try:
         id, text = reader.read()
         print(id)
         print(text)
-        file = open("user_id.txt", "w")
+        file = open("machine.txt", "w")
         file.write(str(text))
         file.close()
 finally:
