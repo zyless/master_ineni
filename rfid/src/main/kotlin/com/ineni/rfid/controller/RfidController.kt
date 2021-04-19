@@ -2,7 +2,7 @@ package com.ineni.rfid.controller
 
 import com.ineni.rfid.entity.Machine
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Bean
+import org.springframework.http.*
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -13,7 +13,6 @@ import java.lang.Boolean.FALSE
 import java.lang.Boolean.TRUE
 import java.util.*
 import java.util.concurrent.TimeUnit
-
 
 
 @RestController
@@ -41,14 +40,26 @@ class RfidController {
         if (result == "TRUE") {
             status = TRUE
             response = "The Machine ist online"
-        }else {
+        } else {
             status = FALSE
             response = "The Machine ist offline"
         }
 
         machine.status = status
-        var responseFromAzure: String = restTemplate.postForObject("XXX", machine, String::class)
 
-        return response
+        val entity = createHttpEntity(machine)
+
+        val responseFromAzure: ResponseEntity<String> = restTemplate.exchange<String>("https://iotplattform.azure-devices.net/devices/rfid/messages/events?api-version=2018-06-30", HttpMethod.POST,
+                entity, String::class.java)
+
+        return "message got transmitted"
+
     }
+
+    fun createHttpEntity(machine: Machine): HttpEntity<*>? {
+        val headers = HttpHeaders()
+        headers.add("Authorization", "SharedAccessSignature sr=iotplattform.azure-devices.net%2Fdevices%2Frfid&sig=QF1dsazoxXMejEdSVfvLaerE57BxnPdgWpth0uVeGII%3D&se=1618830901")
+        return HttpEntity<Any?>(machine, headers)
+    }
+
 }
