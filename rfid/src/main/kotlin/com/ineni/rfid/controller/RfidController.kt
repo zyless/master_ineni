@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.client.RestTemplate
-import org.springframework.web.client.postForObject
 import java.io.File
 import java.lang.Boolean.FALSE
 import java.lang.Boolean.TRUE
@@ -16,8 +15,10 @@ import java.util.concurrent.TimeUnit
 
 
 @RestController
-@RequestMapping("/rfid")
+@RequestMapping("/Machine_A")
 class RfidController {
+
+    private var error: Boolean = FALSE
 
     @Autowired
     lateinit var machine: Machine
@@ -25,7 +26,7 @@ class RfidController {
     @Autowired
     lateinit var restTemplate: RestTemplate
 
-    @GetMapping("/kickstart")
+    @GetMapping("/error")
     fun returnText(): String {
         var response: String? = null
 
@@ -34,25 +35,28 @@ class RfidController {
 
         val myFile = File("rfid.txt")
         val myScanner = Scanner(myFile)
-        val result: String = myScanner.nextLine()
+        machine.errormsg = myScanner.nextLine()
 
-        var status: Boolean? = null
-        if (result == "TRUE") {
-            status = TRUE
-            response = "The Machine ist online"
+        if (error == FALSE) {
+            error = TRUE
+            response = "The Machine is offline"
+            var result = restTemplate.postForObject("http://123414132rr3r.432z65hrtgerfw.3243t5ztgrerf.324t5rfw:2345terfw/" + machine.id + "/error", machine, String::class.java)
+            print(result)
         } else {
-            status = FALSE
-            response = "The Machine ist offline"
+            error = FALSE
+            response = "The Machine ist online"
+            var result = restTemplate.postForObject("http://123414132rr3r.432z65hrtgerfw.3243t5ztgrerf.324t5rfw:2345terfw/" + machine.id + "/okay", machine, String::class.java)
+            print(result)
         }
 
-        machine.status = status
+
 
         val entity = createHttpEntity(machine)
 
         val responseFromAzure: ResponseEntity<String> = restTemplate.exchange<String>("https://iotplattform.azure-devices.net/devices/rfid/messages/events?api-version=2018-06-30", HttpMethod.POST,
                 entity, String::class.java)
 
-        return "message got transmitted"
+        return response
 
     }
 
