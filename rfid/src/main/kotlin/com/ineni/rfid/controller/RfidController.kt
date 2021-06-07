@@ -40,12 +40,12 @@ class RfidController {
         if (error == FALSE) {
             error = TRUE
             response = "The Machine is offline"
-            var result = restTemplate.postForObject("https://nodered-demo-fh-josefk.eu-gb.mybluemix.net/" + machine.id + "/error", machine, String::class.java)
+            var result = restTemplate.getForObject("https://nodered-demo-fh-josefk.eu-gb.mybluemix.net/" + machine.id + "/error", String::class.java)
             print(result)
         } else {
             error = FALSE
             response = "The Machine ist online"
-            var result = restTemplate.postForObject("https://nodered-demo-fh-josefk.eu-gb.mybluemix.net/" + machine.id + "/resolved", machine, String::class.java)
+            var result = restTemplate.getForObject("https://nodered-demo-fh-josefk.eu-gb.mybluemix.net/" + machine.id + "/resolved", String::class.java)
             print(result)
         }
 
