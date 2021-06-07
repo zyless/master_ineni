@@ -49,13 +49,13 @@ class RfidController {
             print(result)
         }
 
-
+/*
 
         val entity = createHttpEntity(machine)
 
         val responseFromAzure: ResponseEntity<String> = restTemplate.exchange<String>("https://iotplattform.azure-devices.net/devices/rfid/messages/events?api-version=2018-06-30", HttpMethod.POST,
                 entity, String::class.java)
-
+*/
         return response
 
     }
