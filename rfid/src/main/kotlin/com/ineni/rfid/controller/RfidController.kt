@@ -42,28 +42,18 @@ class RfidController {
             response = "The Machine is offline"
             var result = restTemplate.getForObject("https://nodered-demo-fh-josefk.eu-gb.mybluemix.net/" + machine.id + "/error", String::class.java)
             print(result)
+            return response
         } else {
             error = FALSE
             response = "The Machine ist online"
             var result = restTemplate.getForObject("https://nodered-demo-fh-josefk.eu-gb.mybluemix.net/" + machine.id + "/resolved", String::class.java)
             print(result)
+            return response
         }
 
-/*
 
-        val entity = createHttpEntity(machine)
-
-        val responseFromAzure: ResponseEntity<String> = restTemplate.exchange<String>("https://iotplattform.azure-devices.net/devices/rfid/messages/events?api-version=2018-06-30", HttpMethod.POST,
-                entity, String::class.java)
-*/
-        return response
 
     }
 
-    fun createHttpEntity(machine: Machine): HttpEntity<*>? {
-        val headers = HttpHeaders()
-        headers.add("Authorization", "SharedAccessSignature sr=iotplattform.azure-devices.net%2Fdevices%2Frfid&sig=QF1dsazoxXMejEdSVfvLaerE57BxnPdgWpth0uVeGII%3D&se=1618830901")
-        return HttpEntity<Any?>(machine, headers)
-    }
 
 }
