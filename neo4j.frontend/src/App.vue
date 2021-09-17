@@ -21,7 +21,7 @@ export default {
     return {
       matchAll: {
         container_id: "viz",
-        server_url: "bolt://13.95.197.19:7687",
+        server_url: "bolt://13.95.xxx.xxx:7687",
         server_user: "neo4j",
         server_password: "toJADpyjMZC5",
         labels: {
@@ -72,7 +72,7 @@ export default {
       },
         machineError: {
         container_id: "viz",
-        server_url: "bolt://13.95.197.19:7687",
+        server_url: "bolt://13.95.xxx.xxx:7687",
         server_user: "neo4j",
         server_password: "toJADpyjMZC5",
           labels: {
@@ -94,7 +94,7 @@ export default {
       },
       criticalStock: {
         container_id: "viz",
-        server_url: "bolt://13.95.197.19:7687",
+        server_url: "bolt://13.95.xxx.xxx:7687",
         server_user: "neo4j",
         server_password: "toJADpyjMZC5",
         labels: {
